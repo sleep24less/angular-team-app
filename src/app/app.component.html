@@ -2,18 +2,46 @@
   <div class="ui card">
     <h1>Team Generator</h1>
     <ul class="list">
-      <li>BoB Boby</li>
-      <li>Lop Lopy</li>
+      <li *ngFor="let member of members">{{ member }}</li>
     </ul>
 
     <div class="add-members-container">
-      <input type="text" placeholder="Name" keyup)="handleChange($event)" />
+      <input
+        #addMemberInput
+        type="text"
+        placeholder="Name"
+        (keyup)="handleChange(addMemberInput.value)"
+        [value]="newMemberName"
+      />
       <button (click)="addMember()">Add</button>
     </div>
 
     <div class="input-container">
-      <input type="text" placeholder="# of teams" />
-      <button>Generate</button>
+      <input
+        #generateTeamsInput
+        type="number"
+        placeholder="# of teams"
+        (keyup)="handleChangeTeams(generateTeamsInput.value)"
+        [value]="numOfTeams"
+      />
+      <button (click)="generateTeams()">Generate</button>
     </div>
+    <p
+      *ngIf="errorMessage"
+      class="error-msg"
+    >
+      {{ errorMessage }}
+    </p>
+  </div>
+
+  <div
+    *ngIf="teams.length"
+    class="teams-container"
+  >
+    <app-team
+      *ngFor="let team of teams; let i = index"
+      [team]="team"
+      [index]="i"
+    ></app-team>
   </div>
 </div>
